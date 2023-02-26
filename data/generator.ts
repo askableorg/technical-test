@@ -1,29 +1,9 @@
 import { faker } from '@faker-js/faker';
+import { Maybe, Product, Order, Categories } from './types';
 
-type Maybe<T> = T | null;
-
-type Categories = 'Sneakers' | 'Clothing' | 'Watches' | 'Hats';
-
-type WithId<T> = T & {
-  _id: string;
-};
-
-export type Product = WithId<{
-  _id: string;
-  title: string;
-  order_id: Maybe<String>;
-  category: Categories;
-  created_at: string;
-  price: string;
-}>;
-
-export type Order = WithId<{
-  product_id: string;
-}>;
-
-function createMockProduct(orderId: Maybe<string>): Product {
+function createMockProduct(productId : string, orderId: Maybe<string>): Product {
   return {
-    _id: faker.database.mongodbObjectId(),
+    _id: productId,
     title: faker.commerce.productName(),
     order_id: orderId,
     created_at: faker.date.past().toISOString(),
@@ -32,34 +12,36 @@ function createMockProduct(orderId: Maybe<string>): Product {
   };
 }
 
-function createMockOrder(_id: string, productId: string): Order {
+function createMockOrder(orderId: string, productId: string): Order {
   return {
-    _id: faker.database.mongodbObjectId(),
+    _id: orderId,
     product_id: productId,
   };
 }
 
-export function generateProductData() {
+export function initDB() {
   return Array(50)
     .fill(null)
-    .reduce<{ products: Product[]; orders: Order[] }>(
+    .reduce<{ products: Map<string,Product>; orders: Map<string, Order> }>(
       (acc, _curr, index) => {
+        const shouldInsertOrder = index % 5 === 0;
+
         const orderID = faker.database.mongodbObjectId();
         const productID = faker.database.mongodbObjectId();
 
-        const shouldInsertOrder = index % 5 === 0;
-
+        const product = createMockProduct(productID, shouldInsertOrder ? orderID : null);
+        
+        acc.products.set(productID, product);
+        
         if (shouldInsertOrder) {
-          acc.orders.push(createMockOrder(orderID, productID));
+          acc.orders.set(orderID, createMockOrder(orderID, productID));
         }
 
-        const product = createMockProduct(shouldInsertOrder ? orderID : null);
-        acc.products.push(product);
         return acc;
       },
       {
-        products: [],
-        orders: [],
+        products: new Map<string, Product>(),
+        orders: new Map<string, Order>()
       }
     );
 }

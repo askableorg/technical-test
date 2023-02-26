@@ -1,3 +1,168 @@
+## Setup
+Install packages via npm. It requires npm 14.x:
+```
+npm install
+```
+
+To start server:
+```
+npm start
+```
+
+To run tests:
+```
+npm test
+```
+
+## API Stucture
+
+### GET /products
+*params*:
+```
+limit = number
+sort = created-asc | created-desc | price-asc | price-desc
+```
+
+*response*:
+```(json)
+[
+  {
+    "_id": "576bc376b5a3c41dbf1e3a68",
+    "title": "Rustic Concrete Fish",
+    "order_id": null,
+    "created_at": "2022-09-13T04:30:32.384Z",
+    "category": "Hats",
+    "price": "193.00"
+  }
+  ...
+]
+```
+
+### PUT /products
+*params (all required)*:
+```
+title : string
+price : string
+category : 'Sneakers' | 'Clothing' | 'Watches' | 'Hats'
+```
+
+*response*:
+```
+{
+  "_id": "576bc376b5a3c41dbf1e3a68",
+  "title": "Rustic Concrete Fish",
+  "order_id": null,
+  "created_at": "2022-09-13T04:30:32.384Z",
+  "category": "Hats",
+  "price": "193.00"
+}
+```
+
+*possible errors*:
+```
+status: 406
+{ error: "Incorrect VALUE for ATTRIBUTE :title" }
+{ error: "Incorrect VALUE for ATTRIBUTE :price" }
+{ error: "Incorrect VALUE for ATTRIBUTE :category" }
+```
+
+### GET /products/:_id
+*response*:
+```
+{
+  "_id": "576bc376b5a3c41dbf1e3a68",
+  "title": "Rustic Concrete Fish",
+  "order_id": "09caccce84a7eeebb8fe4e4f",
+  "created_at": "2022-09-13T04:30:32.384Z",
+  "category": "Hats",
+  "price": "193.00"
+}
+```
+
+*possible errors*:
+```
+status: 404
+{ error: "Can not FIND the PRODUCT with _ID <ID>" }
+```
+
+### GET /products/orders/:_id
+*response*:
+```
+{
+  "_id": "576bc376b5a3c41dbf1e3a68",
+  "title": "Rustic Concrete Fish",
+  "order_id": "09caccce84a7eeebb8fe4e4f",
+  "created_at": "2022-09-13T04:30:32.384Z",
+  "category": "Hats",
+  "price": "193.00"
+}
+```
+
+*possible errors*:
+```
+status: 404
+{ error: "Can not FIND the ORDER with _ID <ID>" }
+status: 404
+{ error: "Can not FIND the PRODUCT with _ID <ID>" }
+```
+
+### DELETE /products/:_id
+*response*:
+```
+{
+  "deleted" : true,
+  "product" : {
+    "_id": "576bc376b5a3c41dbf1e3a68",
+    "title": "Rustic Concrete Fish",
+    "order_id": "09caccce84a7eeebb8fe4e4f",
+    "created_at": "2022-09-13T04:30:32.384Z",
+    "category": "Hats",
+    "price": "193.00"
+  },
+  "order" : {
+    "_id": "09caccce84a7eeebb8fe4e4f",
+    "product_id" : "576bc376b5a3c41dbf1e3a68"
+  }
+}
+```
+
+*possible errors*:
+```
+status: 404
+{ error: "Can not FIND the PRODUCT with _ID <ID>" }
+```
+
+### POST /orders
+*params*:
+```
+product_id = string
+```
+
+*response*:
+{
+  "_id": "09caccce84a7eeebb8fe4e4f",
+  "product_id": "576bc376b5a3c41dbf1e3a68",
+}
+
+*possible errors*:
+```
+status: 404
+{ error: "Can not FIND the PRODUCT with _ID <ID>" }
+```
+
+### GET /orders/:_id
+*response*:
+{
+  "_id": "09caccce84a7eeebb8fe4e4f",
+  "product_id": "576bc376b5a3c41dbf1e3a68",
+}
+
+*possible errors*:
+```
+status: 404
+{ error: "Can not FIND the ORDER with _ID <ID>" }
+```
+
 ### Scenario:
 
 Build a backend API for an online marketplace application. The API will be used to mange Product listings, and Order transactions. You will need to design and implement the following endpoints:

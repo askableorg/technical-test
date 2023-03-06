@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "types": [
+      "jest"
+    ],
+    "sourceMap": true,
+    "target": "es6",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "lib": ["es6", "dom"],
+    "allowJs": true,
+    "outDir": "dist",
+    "rootDirs": ["data", "app"],
+    "strict": true,
+    "noImplicitAny": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true
+  },
+  "include": [
+    "data/*.ts",
+    "app/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+  ]
+}

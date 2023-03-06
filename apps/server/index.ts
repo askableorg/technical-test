@@ -1,13 +1,8 @@
-import fastify from 'fastify';
+import appSetup from './app/app';
 
-import { Database } from './data/Database';
-
-const app = fastify();
 const port = 3000;
 
-app.post('/products', async (req, res) => {
-  res.send(Database.getProducts());
-});
+const app = appSetup();
 
 app.listen({ port }, () => {
   console.log(`Listening on port ${port}`);

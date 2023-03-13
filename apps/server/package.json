@@ -5,8 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "dev": "ts-node-dev index.ts",
-    "test": "jest",
-    "test:watch": "npm run test -- --watch"
+    "test": "npx tap --ts tests/api.ts"
   },
   "keywords": [],
   "author": "",

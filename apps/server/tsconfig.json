@@ -1,0 +1,10 @@
+{
+    "ts-node": {
+      "files": true
+    },
+    "compilerOptions": {
+      "module": "commonjs",
+      "esModuleInterop": true,
+      "allowJs": false,
+    }
+  }

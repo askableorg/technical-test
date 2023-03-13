@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker';
 
-type Maybe<T> = T | null;
+export type Maybe<T> = T | null;
 
-type Categories = 'Sneakers' | 'Clothing' | 'Watches' | 'Hats';
+export type Categories = 'Sneakers' | 'Clothing' | 'Watches' | 'Hats';
 
 type WithId<T> = T & {
   _id: string;
@@ -20,9 +20,9 @@ export type Order = WithId<{
   product_id: string;
 }>;
 
-function createMockProduct(orderId: Maybe<string>): Product {
+function createMockProduct(orderId: Maybe<string>, productID: string): Product {
   return {
-    _id: faker.database.mongodbObjectId(),
+    _id: productID,
     title: faker.commerce.productName(),
     order_id: orderId,
     created_at: faker.date.past().toISOString(),
@@ -33,13 +33,13 @@ function createMockProduct(orderId: Maybe<string>): Product {
 
 function createMockOrder(_id: string, productId: string): Order {
   return {
-    _id: faker.database.mongodbObjectId(),
+    _id: _id,
     product_id: productId,
   };
 }
 
 export function generateProductData() {
-  return Array(50)
+  const generatedData =  Array(50)
     .fill(null)
     .reduce<{ products: Product[]; orders: Order[] }>(
       (acc, _curr, index) => {
@@ -52,7 +52,7 @@ export function generateProductData() {
           acc.orders.push(createMockOrder(orderID, productID));
         }
 
-        const product = createMockProduct(shouldInsertOrder ? orderID : null);
+        const product = createMockProduct(shouldInsertOrder ? orderID : null, productID);
         acc.products.push(product);
         return acc;
       },
@@ -61,4 +61,5 @@ export function generateProductData() {
         orders: [],
       }
     );
+    return generatedData;
 }

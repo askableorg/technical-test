@@ -1,4 +1,4 @@
-import { generateProductData } from "../generators/productsGenerator";
+import { generateProductData } from "../generators/productsGenerators";
 import { generateUserData } from "../generators/usersGenerator";
 
 /**

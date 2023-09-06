@@ -1,3 +1,18 @@
+# Askable Technical Test
+
+Welcome to Askable Technical Test 🚀 This test is consisted of two parts
+
+1. Build a minimal online marketplace application
+2. Improve interactive performance of users list view
+
+## Technical notes
+
+- Frontend app `/apps/frontend` (`http://localhost:5173`)
+- Rest server `/apps/server` (`http://localhost:3000`)
+- Run both apps from the root `pnpm run dev`
+
+## 1. Build a minimal online marketplace application
+
 ### Scenario:
 
 Build a minimal app for an online marketplace application. The app will be used to manage Product listings, and Order transactions. The app should implement the following functionality:
@@ -14,12 +29,6 @@ Build a minimal app for an online marketplace application. The app will be used 
 **No authentication is required**
 **Products should be a One-to-One relationship with Orders.**
 
-### Technical notes
-
-- Frontend app `/apps/frontend` (`http://localhost:5173`)
-- Rest server `/apps/server` (`http://localhost:3000`)
-- Run both apps from the root `pnpm run dev`
-
 #### Notes:
 
 1. Use any library/tooling that you would like. (React Router, Redux, ChakraUI etc)
@@ -28,6 +37,19 @@ Build a minimal app for an online marketplace application. The app will be used 
 1. Implement input validation for all endpoints
 1. Implement error handling for all endpoints
 1. Write tests for critical paths
+1. Implement under `/products` route
+
+## 2. Improve interaction performance of users list view
+
+Please visit `http://localhost:5173/users`.
+
+We have a web page which displays our users data as a list. User can click an item in a list and it displays popover with extra information. However, currently it takes some time to open a popover. We want you to improve this performance!
+
+This page has to
+
+1. Open a popover faster and smoother
+2. User names are displayed in a list and extra information is only accessible through popover
+3. Animation of popover cannot be removed
 
 #### Instructions:
 

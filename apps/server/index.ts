@@ -1,12 +1,18 @@
-import fastify from 'fastify';
-
-import { Database } from './data/Database';
+import fastify from "fastify";
+import cors from "@fastify/cors";
+import { Database } from "./data/Database";
 
 const app = fastify();
 const port = 3000;
 
-app.post('/products', async (req, res) => {
-  res.send(Database.getProducts());
+app.register(cors, {});
+
+app.get("/products", async (req, res) => {
+  res.send(await Database.getProducts());
+});
+
+app.get("/users", async (req, res) => {
+  res.send(await Database.getUsers());
 });
 
 app.listen({ port }, () => {

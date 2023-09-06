@@ -1,8 +1,8 @@
-import { faker } from '@faker-js/faker';
+import { faker } from "@faker-js/faker";
 
 type Maybe<T> = T | null;
 
-type Categories = 'Sneakers' | 'Clothing' | 'Watches' | 'Hats';
+type Categories = "Sneakers" | "Clothing" | "Watches" | "Hats";
 
 type WithId<T> = T & {
   _id: string;
@@ -26,7 +26,12 @@ function createMockProduct(orderId: Maybe<string>): Product {
     title: faker.commerce.productName(),
     order_id: orderId,
     created_at: faker.date.past().toISOString(),
-    category: faker.helpers.arrayElement<Categories>(['Clothing', 'Hats', 'Sneakers', 'Watches']),
+    category: faker.helpers.arrayElement<Categories>([
+      "Clothing",
+      "Hats",
+      "Sneakers",
+      "Watches",
+    ]),
     price: faker.commerce.price(100, 300),
   };
 }

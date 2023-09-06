@@ -1,9 +1,9 @@
 # Askable Technical Test
 
-Welcome to Askable Technical Test 🚀 This test is consisted of two parts
+Welcome to Askable Technical Test 🚀 This test consists of two parts
 
 1. Build a minimal online marketplace application
-2. Improve interactive performance of users list view
+2. Improve interactive performance of a large list
 
 ## Technical notes
 
@@ -43,13 +43,15 @@ Build a minimal app for an online marketplace application. The app will be used 
 
 Please visit `http://localhost:5173/users`.
 
-We have a web page which displays our users data as a list. User can click an item in a list and it displays popover with extra information. However, currently it takes some time to open a popover. We want you to improve this performance!
+We have a very poorly written web page which displays 10,000 users data as a list. Extra information can be seen on hover.
+Currently there are a few performance issues:
 
-This page has to
+1. Both searching and selecting a user is very laggy.
+2. An excessive amount of nodes are on the page.
 
-1. Open a popover faster and smoother
-2. User names are displayed in a list and extra information is only accessible through popover
-3. Animation of popover cannot be removed
+The task is to improve on the issues above to make the experience better for the user.
+You can do what you want to the page, completely refactor it if you like! But because this is a frontend task the only requirement is that the API must always return 10,000 users.
+Same as task one, you are free to use any library you like(state management, styling, virtualization etc).
 
 #### Instructions:
 
@@ -58,4 +60,4 @@ Complete the test and push your code to your branch
 Add a description in your PR with instructions on how to run your applications and any tests
 Create a pull request and include any relevant information in the description
 
-Let Askable know once it's complete
+Reach out if you have any questions.

@@ -1,4 +1,4 @@
-import { faker } from "@faker-js/faker";
+import { faker } from '@faker-js/faker';
 
 type WithId<T> = T & {
   _id: string;
@@ -7,6 +7,7 @@ type WithId<T> = T & {
 export type User = WithId<{
   firstName: string;
   lastName: string;
+  dp: string;
   favorites: {
     lion: string;
     fish: string;
@@ -23,7 +24,8 @@ function createMockUser(): User {
     _id: faker.database.mongodbObjectId(),
     firstName: faker.name.firstName(),
     lastName: faker.name.lastName(),
-    dob: faker.date.birthdate({ min: 18, max: 65, mode: "age" }),
+    dp: faker.image.avatar(),
+    dob: faker.date.birthdate({ min: 18, max: 65, mode: 'age' }),
     favorites: {
       fish: faker.animal.fish(),
       lion: faker.animal.lion(),
@@ -32,7 +34,7 @@ function createMockUser(): User {
 }
 
 export function generateUserData() {
-  return Array(30000)
+  return Array(10000)
     .fill(null)
     .reduce<{ users: User[] }>(
       (acc, _curr) => {
@@ -45,4 +47,3 @@ export function generateUserData() {
       }
     );
 }
-``;

@@ -1,30 +1,32 @@
+import { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useProductsQuery } from '@/api/useProductsQuery';
 import { getErrorMessage, formatPrice } from '@/utils';
 import BuyButton from '@/components/BuyButton';
+import { defaultTitle } from '@/components/Header';
 
-const API_URL = import.meta.env.VITE_API_URL;
+type Category = 'Sneakers' | 'Clothing' | 'Watches' | 'Hats';
 
-type Maybe<T> = T | null;
-
-type Categories = 'Sneakers' | 'Clothing' | 'Watches' | 'Hats';
-
-type WithId<T> = T & {
+type Product = {
   _id: string;
-};
-
-export type Product = WithId<{
   title: string;
-  order_id: Maybe<string>;
-  category: Categories;
+  order_id?: string;
+  category: Category;
   created_at: string;
   price: string;
-}>;
+};
 
 const ProductPage = () => {
   const { id } = useParams();
   const { fetchProductById } = useProductsQuery();
   const { data: product, isLoading, isError, error } = fetchProductById(id);
+
+  useEffect(() => {
+    // Set the product title in the browser tab
+    if (product) {
+      document.title = `${product.title} | ${defaultTitle}`;
+    }
+  }, [product]);
 
   return (
     <div className="content-narrow centered">
@@ -53,3 +55,4 @@ const ProductPage = () => {
 };
 
 export default ProductPage;
+export type { Product };

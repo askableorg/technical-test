@@ -3,12 +3,14 @@ import { FixedSizeList } from 'react-window';
 import { useUsersQuery } from '@/api/useUsersQuery';
 import { getErrorMessage } from '@/utils';
 import UserItem from '@/components/UserItem';
-import type { TUser } from '@/components/UserItem';
+import type { User } from '@/components/UserItem';
+
+const itemHeight = 72;
 
 const UsersPage = () => {
-  const [filteredUsers, setFilteredUsers] = useState<TUser[]>([]);
+  const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
   const [search, setSearch] = useState('');
-  const [selected, setSelected] = useState<TUser | null>(null);
+  const [selected, setSelected] = useState<User | null>(null);
   const [listHeight, setListHeight] = useState<number>(700);
 
   const { fetchUsers } = useUsersQuery();
@@ -28,7 +30,7 @@ const UsersPage = () => {
       );
 
       setFilteredUsers(usersFound ?? []);
-      setListHeight(Math.min(window.innerHeight, 72 * filteredUsers.length) - 200);
+      setListHeight(Math.min(window.innerHeight - 200, itemHeight * filteredUsers.length));
     } else {
       // List all users
       setFilteredUsers(users);
@@ -67,7 +69,7 @@ const UsersPage = () => {
             innerElementType="ul"
             className="v-list"
             itemCount={filteredUsers.length}
-            itemSize={72}
+            itemSize={itemHeight}
             width={window.innerWidth - 24}
             height={listHeight}>
             {({ index, style, isScrolling }) => (

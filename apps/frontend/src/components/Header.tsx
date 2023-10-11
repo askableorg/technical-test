@@ -1,6 +1,25 @@
-import { NavLink } from 'react-router-dom';
+import { useEffect } from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
+
+// @todo React Router should handle dynamic page titles, right? It's simple in Vue Router
+const defaultTitle = 'Ye Olde Shoppe | Askable technical test';
+const pageTitles: { [key: string]: string } = {
+  '/': 'Home',
+  '/products': 'Products',
+  '/product': 'Product',
+  '/users': 'Users',
+  '/admin/products': 'Manage Products',
+  '/admin/products/add': 'Add Product',
+  '/admin/orders': 'Manage Orders'
+};
 
 const Header = () => {
+  const location = useLocation();
+  useEffect(() => {
+    const title = pageTitles[location.pathname];
+    document.title = title ? `${title} | ${defaultTitle}` : defaultTitle;
+  }, [location]);
+
   return (
     <header id="header" className="sticky inline-between inline-wrap">
       <h2>
@@ -21,3 +40,4 @@ const Header = () => {
 };
 
 export default Header;
+export { defaultTitle };

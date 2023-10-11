@@ -19,22 +19,24 @@ import {
  * Show single user as a list item
  */
 
-type TUser = {
+type Favorites = {
+  lion: string;
+  fish: string;
+};
+
+type User = {
   _id: string;
   dp: string;
   firstName: string;
   lastName: string;
-  favorites: {
-    lion: string;
-    fish: string;
-  };
+  favorites: Favorites;
   dob: Date;
 };
 
 type TUserItem = {
   isSelected: boolean;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  user: TUser;
+  user: User;
 };
 
 const UserItem = ({ user, isSelected, onChange }: TUserItem) => {
@@ -106,4 +108,4 @@ const UserItem = ({ user, isSelected, onChange }: TUserItem) => {
 };
 
 export default memo(UserItem);
-export type { TUser };
+export type { User };

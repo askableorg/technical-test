@@ -21,10 +21,6 @@ type SortParams = {
   desc: boolean;
 };
 
-type TProductSort = {
-  onChange: (params: SortParams) => void;
-};
-
 const sortBys: SortBy[] = [
   { id: '1', value: 'title', desc: false, label: 'Title A to Z' },
   { id: '2', value: 'title', desc: true, label: 'Title Z to A' },
@@ -40,7 +36,7 @@ const sizes = [
   { value: 50, label: '50 items' }
 ];
 
-const ProductSort = ({ onChange }: TProductSort) => {
+const ProductSort = ({ onChange }: { onChange: (params: SortParams) => void }) => {
   const navigate = useNavigate();
   const location = useLocation();
 

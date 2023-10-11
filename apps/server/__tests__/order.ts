@@ -63,3 +63,8 @@ describe('POST /order', () => {
     expect(response.statusCode).toBe(400);
   });
 });
+
+afterAll((done) => {
+  app.close();
+  done();
+});

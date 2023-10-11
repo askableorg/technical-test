@@ -48,9 +48,10 @@ export function useOrdersQuery() {
 
         return response.json();
       },
-      onSuccess: () => {
+      onSuccess: (data, params) => {
         queryClient.invalidateQueries({ queryKey: ['orders'] });
         queryClient.invalidateQueries({ queryKey: ['products'] });
+        queryClient.invalidateQueries({ queryKey: ['product', params] });
       }
     });
 

@@ -3,16 +3,12 @@ import BuyButton from '@/components/BuyButton';
 import { formatPrice } from '@/utils';
 import type { Product } from '@/pages/products/ProductPage';
 
-type TProductItem = {
-  product: Product;
-};
-
 /**
  * Product Item
  * Show single product as a list item
  */
 
-const ProductItem = ({ product }: TProductItem) => {
+const ProductItem = ({ product }: { product: Product }) => {
   const { _id, title, price, order_id } = product;
 
   return (

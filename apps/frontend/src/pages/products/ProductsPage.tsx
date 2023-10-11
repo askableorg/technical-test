@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useProductsQuery } from '@/api/useProductsQuery';
 import { getErrorMessage } from '@/utils';
 import ProductItem from '@/components/ProductItem';
@@ -6,17 +6,11 @@ import ProductSort from '@/components/ProductSort';
 import type { Product } from '@/pages/products/ProductPage';
 import type { SortParams } from '@/components/ProductSort';
 
-const API_URL = import.meta.env.VITE_API_URL;
-
 const ProductsPage = () => {
   const [sortParams, setSortParams] = useState<SortParams | null>(null);
 
   const { fetchProducts } = useProductsQuery();
   const { data: products, isLoading, isError, error, refetch } = fetchProducts(sortParams ?? {});
-
-  useEffect(() => {
-    refetch();
-  }, [sortParams]);
 
   return (
     <>
@@ -34,9 +28,9 @@ const ProductsPage = () => {
               <ProductItem product={product} key={product._id} />
             ))}
           </ul>
-        ) : (
+        ) : !isLoading ? (
           <div className="text-centered">No products found</div>
-        )}
+        ) : null}
       </main>
     </>
   );

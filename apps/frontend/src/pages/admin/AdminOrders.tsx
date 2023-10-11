@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import { getErrorMessage, formatPrice } from '@/utils';
 import type { Product } from '@/pages/products/ProductPage';
 
-export type Order = {
+type Order = {
   _id: string;
   created_at: string;
   product_id: string;
@@ -49,12 +49,13 @@ const AdminOrders = () => {
               </tbody>
             </table>
           </div>
-        ) : (
+        ) : !isLoading ? (
           <div className="callout">No orders yet</div>
-        )}
+        ) : null}
       </main>
     </>
   );
 };
 
 export default AdminOrders;
+export type { Order };

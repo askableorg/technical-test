@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { useProductsQuery } from '@/api/useProductsQuery';
@@ -14,10 +14,6 @@ const AdminProducts = () => {
   const { fetchProducts, deleteProduct } = useProductsQuery();
   const { data: products, isLoading, isError, error, refetch } = fetchProducts(sortParams ?? {});
   const { mutate, isError: isErrorDeleting, error: errorDeleting } = deleteProduct();
-
-  useEffect(() => {
-    refetch();
-  }, [sortParams]);
 
   const handleDeleteProduct = async (id: string) => {
     if (confirm('Delete this product?')) {
@@ -90,9 +86,9 @@ const AdminProducts = () => {
               </tbody>
             </table>
           </div>
-        ) : (
+        ) : !isLoading ? (
           <div className="callout">No products found</div>
-        )}
+        ) : null}
       </main>
     </>
   );

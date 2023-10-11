@@ -1,4 +1,5 @@
 body {
+  background: linear-gradient(to bottom, #ebedfa, transparent 15%);
   color: var(--color-base);
   font-family: var(--font-family);
   font-size: var(--font-size-base);
@@ -217,6 +218,7 @@ header.sticky {
 
 #header.sticky {
   top: 0;
+  margin-bottom: calc(var(--size-base) * -1);
 }
 
 nav a {

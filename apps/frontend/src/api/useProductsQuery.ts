@@ -13,7 +13,7 @@ export function useProductsQuery() {
 
   const fetchProducts = (params: any) =>
     useQuery({
-      queryKey: ['products'],
+      queryKey: ['products', params],
       queryFn: async (): Promise<Product[]> => {
         const response = await fetch(`${apiRoutes.products}?${new URLSearchParams(params)}`);
 

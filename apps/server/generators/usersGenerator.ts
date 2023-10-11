@@ -28,8 +28,8 @@ function createMockUser(): User {
     dob: faker.date.birthdate({ min: 18, max: 65, mode: 'age' }),
     favorites: {
       fish: faker.animal.fish(),
-      lion: faker.animal.lion(),
-    },
+      lion: faker.animal.lion()
+    }
   };
 }
 
@@ -43,7 +43,7 @@ export function generateUserData() {
         return acc;
       },
       {
-        users: [],
+        users: []
       }
     );
 }

@@ -5,6 +5,16 @@ Welcome to Askable Technical Test 🚀 This test consists of two parts
 1. Build a minimal online marketplace application
 2. Improve interactive performance of a large list
 
+# Sean's Notes
+
+1. Didn't use a CSS framework. Tend to prefer my own helper classes like `stack` and `inline`
+1. Used Tanstack React Query to manage API calls and caching and cache invalidation. Better fit for purpose than Redux
+1. Added sortBy and size to list products query. Could easily support pagination by passing a `page` param
+1. Order process is pretty basic -> tap 'Buy' -> create a new `Order` with the product ID -> set the `order_id` on the relevant product. Cart and checkout flow is beyond the scope of this task
+1. Virtualised user list with `react-window` (an improved version of `react-virtualized`). This improves scrolling and searching performance. Memoised `UserItem` but might not be necessary
+1. Types are a bit all over the place. Could be refactored to have one source of truth for front and backend types.
+1. In `/apps/server/`, run `pnpm test` to test the /orders API endpoints. Should get 4/4 passed. Similar tests can be added for /products
+
 ## Technical notes
 
 - Frontend app `/apps/frontend` (`http://localhost:5173`)
@@ -24,10 +34,7 @@ Build a minimal app for an online marketplace application. The app will be used 
 1. Ability to purchase the product
 1. Delete a Product (For testing purposes, deleting a Product should also delete the Order associated with it, if it exists)
 
-**You can come up with any frontend design you like**
-**You will need to implement both the server and the frontend**
-**No authentication is required**
-**Products should be a One-to-One relationship with Orders.**
+**You can come up with any frontend design you like** **You will need to implement both the server and the frontend** **No authentication is required** **Products should be a One-to-One relationship with Orders.**
 
 #### Notes:
 
@@ -43,21 +50,15 @@ Build a minimal app for an online marketplace application. The app will be used 
 
 Please visit `http://localhost:5173/users`.
 
-We have a very poorly written web page which displays 10,000 users data as a list. Extra information can be seen on hover.
-Currently there are a few performance issues:
+We have a very poorly written web page which displays 10,000 users data as a list. Extra information can be seen on hover. Currently there are a few performance issues:
 
 1. Both searching and selecting a user is very laggy.
 2. An excessive amount of nodes are on the page.
 
-The task is to improve on the issues above to make the experience better for the user.
-You can do what you want to the page, completely refactor it if you like! But because this is a frontend task the only requirement is that the API must always return 10,000 users.
-Same as task one, you are free to use any library you like(state management, styling, virtualization etc).
+The task is to improve on the issues above to make the experience better for the user. You can do what you want to the page, completely refactor it if you like! But because this is a frontend task the only requirement is that the API must always return 10,000 users. Same as task one, you are free to use any library you like(state management, styling, virtualization etc).
 
 #### Instructions:
 
-Clone this repository and create a new branch with your name
-Complete the test and push your code to your branch
-Add a description in your PR with instructions on how to run your applications and any tests
-Create a pull request and include any relevant information in the description
+Clone this repository and create a new branch with your name Complete the test and push your code to your branch Add a description in your PR with instructions on how to run your applications and any tests Create a pull request and include any relevant information in the description
 
 Reach out if you have any questions.

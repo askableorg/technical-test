@@ -1,0 +1,136 @@
+/* Stack (vertical) and Inline (horizontal) layouts */
+[class^='inline'],
+[class*=' inline'],
+[class^='stack'],
+[class*=' stack'] {
+  display: flex;
+  gap: var(--size-base);
+}
+
+[class^='inline'],
+[class*=' inline'] {
+  align-items: center;
+  justify-content: flex-start;
+}
+
+[class^='inline'] > svg,
+[class*=' inline'] > svg {
+  min-width: 1rem;
+}
+
+[class^='stack'],
+[class*=' stack'] {
+  flex-direction: column;
+}
+
+.inline-zero,
+.stack-zero {
+  display: inline-flex;
+  gap: 0;
+}
+
+.inline-quarter,
+.stack-quarter {
+  gap: var(--size-quarter);
+}
+
+.inline-half,
+.stack-half {
+  gap: var(--size-half);
+}
+
+.inline-2x,
+.stack-2x {
+  gap: var(--size-2x);
+}
+
+.stack-4x {
+  gap: var(--size-4x);
+}
+
+.inline-wrap {
+  flex-wrap: wrap;
+}
+
+.inline-between {
+  justify-content: space-between;
+}
+
+/* Grid Blocks 5 */
+.grid-blocks-4 {
+  display: grid;
+  gap: var(--size-base);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-rows: repeat(auto, auto);
+  list-style: none;
+  padding: 0;
+}
+
+/* General helper classes */
+.align-top {
+  align-items: flex-start;
+  align-self: flex-start;
+}
+
+.content-narrow {
+  max-width: 36rem;
+  width: 100%;
+}
+
+.padded {
+  padding: var(--size-base);
+}
+
+.centered {
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.text-centered {
+  text-align: center;
+}
+
+.text-centered > * {
+  align-self: center;
+}
+
+.text-muted {
+  opacity: 0.7;
+}
+
+small,
+.text-small {
+  font-size: var(--font-size-small);
+}
+
+[nowrap] {
+  white-space: nowrap;
+}
+
+[hidden],
+.hidden-large {
+  display: none;
+}
+
+.round {
+  border-radius: var(--border-radius-round);
+}
+
+@media (max-width: 40rem) {
+  /* Reduce items per row */
+  .grid-blocks-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hidden-large {
+    display: block;
+  }
+}
+
+@media print {
+  [noprint],
+  button,
+  .button {
+    display: none !important;
+  }
+}

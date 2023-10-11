@@ -1,147 +1,98 @@
-import { ChangeEvent, useEffect, useState } from 'react';
-import {
-  useFloating,
-  autoUpdate,
-  offset,
-  flip,
-  shift,
-  useDismiss,
-  useRole,
-  useClick,
-  useInteractions,
-  useHover,
-  FloatingFocusManager,
-  useId,
-  useTransitionStyles,
-} from '@floating-ui/react';
+import { useEffect, useState } from 'react';
+import { FixedSizeList } from 'react-window';
+import { useUsersQuery } from '@/api/useUsersQuery';
+import { getErrorMessage } from '@/utils';
+import UserItem from '@/components/UserItem';
+import type { TUser } from '@/components/UserItem';
 
-type Props = {
-  isSelected: boolean;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  user: {
-    _id: string;
-    dp: string;
-    firstName: string;
-    lastName: string;
-    favorites: {
-      lion: string;
-      fish: string;
-    };
-    dob: Date;
-  };
-};
-
-const UserItem = ({ user, isSelected, onChange }: Props) => {
-  const { firstName, lastName, dob, favorites } = user;
-
-  const [isOpen, setIsOpen] = useState(false);
-  const { refs, floatingStyles, context } = useFloating({
-    open: isOpen,
-    onOpenChange: setIsOpen,
-    middleware: [offset(10), flip({ fallbackAxisSideDirection: 'end' }), shift()],
-    whileElementsMounted: autoUpdate,
-  });
-
-  const { isMounted, styles } = useTransitionStyles(context);
-
-  const hover = useHover(context);
-  const dismiss = useDismiss(context);
-  const role = useRole(context);
-
-  const { getReferenceProps, getFloatingProps } = useInteractions([hover, dismiss, role]);
-
-  const headingId = useId();
-
-  const dobDate = new Date(dob);
-
-  return (
-    <div style={{ marginBottom: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <input onChange={onChange} checked={isSelected} type="checkbox" />
-      <div ref={refs.setReference} {...getReferenceProps()} style={{ display: 'flex' }}>
-        <img src={user.dp} height={50} style={{ borderRadius: '100%', marginRight: 12, marginLeft: 12 }} width={50} />
-        <h3>{firstName}</h3>
-      </div>
-      {isOpen && isMounted && (
-        <FloatingFocusManager context={context} modal={false}>
-          <div
-            ref={refs.setFloating}
-            style={{
-              ...floatingStyles,
-              ...styles,
-              width: 'max-content',
-              maxWidth: 'max-content',
-              backgroundColor: 'white',
-              border: '1px solid #ddd',
-              fontSize: '90%',
-              padding: '4px 8px',
-              borderRadius: '4px',
-              textAlign: 'left',
-            }}
-            aria-labelledby={headingId}
-            {...getFloatingProps()}
-          >
-            <div>
-              <img src={user.dp} height={100} width={100} />
-              <ul>
-                <li>
-                  {firstName} {lastName}
-                </li>
-                <li>
-                  {dobDate.getUTCDate()}/{dobDate.getUTCMonth()}/{dobDate.getUTCFullYear()}
-                </li>
-                <li>favorite lion {favorites.lion}</li>
-                <li>favorite fish {favorites.fish}</li>
-              </ul>
-            </div>
-          </div>
-        </FloatingFocusManager>
-      )}
-    </div>
-  );
-};
-
-export const UsersPage = () => {
-  const [users, setUsers] = useState<Props['user'][] | null>(null);
-  const [selected, setSelected] = useState<string | null>(null);
+const UsersPage = () => {
+  const [filteredUsers, setFilteredUsers] = useState<TUser[]>([]);
   const [search, setSearch] = useState('');
+  const [selected, setSelected] = useState<TUser | null>(null);
+  const [listHeight, setListHeight] = useState<number>(700);
+
+  const { fetchUsers } = useUsersQuery();
+  const { data: users, isLoading, isError, error } = fetchUsers();
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await fetch('http://localhost:3000/users');
+    if (!users) {
+      return;
+    }
 
-        const data = await response.json();
-        setUsers(data);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    fetchUsers();
-  }, []);
+    if (search !== '') {
+      // Filter users by search query
+      const usersFound = users?.filter(
+        (user) =>
+          user.firstName.toLowerCase().includes(search.toLowerCase()) ||
+          user.lastName.toLowerCase().includes(search.toLowerCase())
+      );
 
-  if (users === null) {
-    return <div>Loading...</div>;
-  }
-
-  const selectedUser = users.find((user) => user._id === selected);
+      setFilteredUsers(usersFound ?? []);
+      setListHeight(Math.min(window.innerHeight, 72 * filteredUsers.length) - 200);
+    } else {
+      // List all users
+      setFilteredUsers(users);
+    }
+  }, [users, search]);
 
   const handleChange = (id: string) => {
-    setSelected(id);
+    // Select/deselect a single user
+    if (selected?._id === id) {
+      setSelected(null);
+      return;
+    }
+
+    setSelected(users?.find((user) => user._id === id) ?? null);
   };
 
-  const filteredUsers = users.filter((user) => {
-    return user.firstName.toLowerCase().includes(search.toLowerCase());
-  });
-
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', position: 'relative' }}>
-      <div style={{ position: 'sticky', top: 0, backgroundColor: 'white', width: '100%' }}>
-        <h1>Selected user: {selectedUser?.firstName ?? 'No user selected'}</h1>
-        <input onChange={(e) => setSearch(e.target.value)} placeholder="Search..." style={{ marginBottom: 20 }} />
-      </div>
-      {filteredUsers?.map((user) => {
-        return <UserItem onChange={() => handleChange(user._id)} user={user} isSelected={selected === user?._id} />;
-      })}
-    </div>
+    <>
+      <header className="stack-half sticky">
+        <h1>Users {!isLoading ? <>({filteredUsers.length})</> : null}</h1>
+        {!isLoading ? (
+          <div className="inline inline-wrap">
+            <input onChange={(e) => setSearch(e.target.value)} placeholder="Search..." />
+            <div>
+              Selected user: <strong>{selected?.firstName ?? 'No user selected'}</strong>
+            </div>
+          </div>
+        ) : null}
+      </header>
+
+      <main className="stack">
+        {isError ? <div className="callout critical">{getErrorMessage(error)}</div> : null}
+        {isLoading ? <div className="callout">Loading...</div> : null}
+        {users && users.length > 0 ? (
+          <FixedSizeList
+            innerElementType="ul"
+            className="v-list"
+            itemCount={filteredUsers.length}
+            itemSize={72}
+            width={window.innerWidth - 24}
+            height={listHeight}>
+            {({ index, style, isScrolling }) => (
+              <li style={style}>
+                {isScrolling ? (
+                  <div className="skeleton inline">
+                    <div></div>
+                    <div></div>
+                  </div>
+                ) : (
+                  <UserItem
+                    isSelected={selected?._id === filteredUsers[index]?._id}
+                    onChange={() => handleChange(filteredUsers[index]._id)}
+                    user={filteredUsers[index]}
+                  />
+                )}
+              </li>
+            )}
+          </FixedSizeList>
+        ) : (
+          <div className="callout">No users found</div>
+        )}
+      </main>
+    </>
   );
 };
+
+export default UsersPage;

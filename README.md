@@ -7,13 +7,26 @@ Welcome to Askable Technical Test 🚀 This test consists of two parts
 
 # Sean's Notes
 
-1. Didn't use a CSS framework. Tend to prefer my own helper classes like `stack` and `inline`
 1. Used Tanstack React Query to manage API calls and caching and cache invalidation. Better fit for purpose than Redux
 1. Added sortBy and size to list products query. Could easily support pagination by passing a `page` param
 1. Order process is pretty basic -> tap 'Buy' -> create a new `Order` with the product ID -> set the `order_id` on the relevant product. Cart and checkout flow is beyond the scope of this task
 1. Virtualised user list with `react-window` (an improved version of `react-virtualized`). This improves scrolling and searching performance. Memoised `UserItem` but might not be necessary
 1. Types are a bit all over the place. Could be refactored to have one source of truth for front and backend types.
 1. In `/apps/server/`, run `pnpm test` to test the /orders API endpoints. Should get 4/4 passed. Similar tests can be added for /products
+1. Hand-rolled CSS
+
+### Screenshots
+
+<img width="1014" alt="Screenshot 2023-10-11 at 4 18 13 pm" src="https://github.com/seanockert/technical-test/assets/574163/308c1b19-9318-4942-bfa3-60ee6a18af48">
+
+<img width="1013" alt="Screenshot 2023-10-11 at 4 17 05 pm" src="https://github.com/seanockert/technical-test/assets/574163/31b2eeaa-84dd-436e-9204-d86d0dc834ba">
+
+<img width="1014" alt="Screenshot 2023-10-11 at 4 16 55 pm" src="https://github.com/seanockert/technical-test/assets/574163/cdcedc09-f489-45e7-b866-db486fc7343e">
+
+<img width="606" alt="Screenshot 2023-10-11 at 4 19 17 pm" src="https://github.com/seanockert/technical-test/assets/574163/cadcf5d7-0a60-4d34-bf64-f7ee949333aa">
+
+<img width="344" alt="Screenshot 2023-10-11 at 4 20 07 pm" src="https://github.com/seanockert/technical-test/assets/574163/9c787849-d4bb-412c-981e-bb88811bb96b">
+
 
 ## Technical notes
 

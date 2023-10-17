@@ -58,7 +58,7 @@ export class Database {
 
     if (index !== -1) {
       // Remove the associated order
-      this.data.orders.filter((order: Order) => order.product_id === id);
+      this.data.orders = this.data.orders.filter((order: Order) => order.product_id === id);
       return this.data.products.splice(index, 1)[0];
     }
 
